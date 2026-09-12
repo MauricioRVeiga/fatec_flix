@@ -67,6 +67,7 @@ export function Header() {
             variant="ghost"
             size="icon"
             aria-label="Favoritos"
+            nativeButton={false}
             render={
               <Link href="/favoritos" className="relative">
                 <Heart className="size-5" aria-hidden="true" />

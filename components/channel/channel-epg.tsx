@@ -25,8 +25,8 @@ export function ChannelEpg({ epg }: { epg: ApiEpg | null }) {
               Agora
             </p>
             {live && (
-              <span className="flex items-center gap-1 text-xs font-medium text-red-500">
-                <span className="size-1.5 rounded-full bg-red-500" aria-hidden="true" />
+              <span className="flex items-center gap-1 text-xs font-medium text-primary">
+                <span className="size-1.5 animate-pulse rounded-full bg-primary" aria-hidden="true" />
                 AO VIVO
               </span>
             )}

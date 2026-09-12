@@ -104,7 +104,7 @@ export default async function HomePage({
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-10 px-4 py-6 sm:px-6">
-      <ChannelSection title="Em destaque" channels={featured} />
+      <ChannelSection title="Em destaque" channels={featured} priorityCount={6} />
       <ChannelSection title="Agora na TV" channels={nowOnTv} />
 
       {categoryNames.map((category) => (

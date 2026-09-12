@@ -27,7 +27,11 @@ export default function ChannelError({
       </p>
       <div className="flex gap-3">
         <Button onClick={reset}>Tentar novamente</Button>
-        <Button variant="outline" render={<Link href="/">Voltar ao catálogo</Link>} />
+        <Button
+          variant="outline"
+          nativeButton={false}
+          render={<Link href="/">Voltar ao catálogo</Link>}
+        />
       </div>
     </main>
   );

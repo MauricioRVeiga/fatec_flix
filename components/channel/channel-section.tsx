@@ -16,10 +16,12 @@ export function ChannelSection({
   title,
   channels,
   categorySlug,
+  priorityCount = 0,
 }: {
   title: string;
   channels: ApiChannelListItem[];
   categorySlug?: string;
+  priorityCount?: number;
 }) {
   if (channels.length === 0) {
     return null;
@@ -39,7 +41,7 @@ export function ChannelSection({
           </Link>
         )}
       </div>
-      <ChannelGrid channels={channels} />
+      <ChannelGrid channels={channels} priorityCount={priorityCount} />
     </section>
   );
 }

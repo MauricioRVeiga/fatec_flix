@@ -25,6 +25,7 @@ export function Pagination({
       <Button
         variant="outline"
         size="sm"
+        nativeButton={false}
         render={
           <Link
             href={`${basePath}${page - 1 > 1 ? `?page=${page - 1}` : ""}`}
@@ -43,6 +44,7 @@ export function Pagination({
       <Button
         variant="outline"
         size="sm"
+        nativeButton={false}
         render={
           <Link
             href={`${basePath}?page=${page + 1}`}

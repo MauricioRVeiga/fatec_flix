@@ -79,8 +79,13 @@ function subscribe(listener: Listener): () => void {
   };
 }
 
+// Precisa ser uma referência estável — useSyncExternalStore compara
+// por igualdade referencial, e devolver `[]` novo a cada chamada faz
+// o React reportar risco de loop infinito.
+const EMPTY_FAVORITES: string[] = [];
+
 function getServerSnapshot(): string[] {
-  return [];
+  return EMPTY_FAVORITES;
 }
 
 export interface FavoritesStore {

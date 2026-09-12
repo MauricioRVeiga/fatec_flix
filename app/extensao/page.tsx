@@ -36,8 +36,26 @@ export default function ExtensionPage() {
         </p>
       </div>
 
+      <section className="flex flex-col gap-3 rounded-lg border border-border/60 bg-muted/30 p-5">
+        <h2 className="font-semibold">No celular? Isso aqui não instala</h2>
+        <p className="text-sm text-muted-foreground">
+          Android (Chrome) não permite instalar extensão customizada, e no iOS isso
+          exigiria um app nativo publicado na App Store. Em vez da extensão, use um
+          navegador mobile com bloqueio de anúncio nativo, como o{" "}
+          <a
+            href="https://brave.com/download/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium underline underline-offset-2"
+          >
+            Brave
+          </a>{" "}
+          (Android e iOS).
+        </p>
+      </section>
+
       <section className="flex flex-col gap-3 rounded-lg border border-border/60 p-5">
-        <h2 className="font-semibold">Chrome, Edge ou Brave</h2>
+        <h2 className="font-semibold">Chrome, Edge ou Brave (desktop)</h2>
         <ol className="flex flex-col gap-3">
           <Step n={1}>
             Baixe o código-fonte do projeto (pasta <code>extension/</code>).

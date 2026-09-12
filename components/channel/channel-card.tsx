@@ -12,7 +12,14 @@ import { FavoriteButton } from "./favorite-button";
  * Card do canal (PROJECT.md §33). Server Component — só o botão de
  * favorito é interativo (PROJECT.md §49).
  */
-export function ChannelCard({ channel }: { channel: ApiChannelListItem }) {
+export function ChannelCard({
+  channel,
+  priority = false,
+}: {
+  channel: ApiChannelListItem;
+  /** Marca a logo como LCP candidate — só pros primeiros cards acima da dobra. */
+  priority?: boolean;
+}) {
   const current = channel.epg?.current ?? null;
   const live = isLiveNow(current);
   const progress = calculateProgress(current);
@@ -29,6 +36,7 @@ export function ChannelCard({ channel }: { channel: ApiChannelListItem }) {
             src={channel.logo_url}
             alt={`Logo de ${channel.name}`}
             fill
+            priority={priority}
             className="object-contain p-6"
             sizes="(min-width: 1280px) 200px, (min-width: 640px) 25vw, 50vw"
           />
@@ -65,8 +73,8 @@ export function ChannelCard({ channel }: { channel: ApiChannelListItem }) {
 
         <div className="mt-auto flex items-center justify-between pt-2">
           {live ? (
-            <span className="flex items-center gap-1 text-xs font-medium text-red-500">
-              <span className="size-1.5 rounded-full bg-red-500" aria-hidden="true" />
+            <span className="flex items-center gap-1 text-xs font-medium text-primary">
+              <span className="size-1.5 animate-pulse rounded-full bg-primary" aria-hidden="true" />
               AO VIVO
             </span>
           ) : (

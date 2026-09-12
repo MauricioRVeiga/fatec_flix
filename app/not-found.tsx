@@ -11,7 +11,7 @@ export default function NotFound() {
       <p className="max-w-sm text-muted-foreground">
         O conteúdo que você procura não existe ou foi removido.
       </p>
-      <Button render={<Link href="/">Voltar para o início</Link>} />
+      <Button nativeButton={false} render={<Link href="/">Voltar para o início</Link>} />
     </main>
   );
 }
