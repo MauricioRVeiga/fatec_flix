@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { headers } from "next/headers";
 import { Suspense } from "react";
 
-import { Header } from "@/components/layout/header";
+import { HeaderContainer } from "@/components/layout/header-container";
 
 import "./globals.css";
 
@@ -52,7 +52,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Suspense fallback={<div className="h-16 border-b border-border/60" />}>
-          <Header />
+          <HeaderContainer />
         </Suspense>
         {children}
       </body>

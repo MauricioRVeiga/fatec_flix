@@ -35,6 +35,7 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-live: var(--live);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -57,6 +58,11 @@
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.55 0.2 25);
   --primary-foreground: oklch(0.985 0 0);
+  /* Vermelho pra uso como TEXTO (indicador "AO VIVO") — precisa de
+     contraste ≥4.5:1 (WCAG AA, texto normal), diferente de --primary
+     (otimizado pra ser fundo de botão com texto branco em cima). No
+     claro os dois já se equivalem (>5:1 contra o fundo branco). */
+  --live: oklch(0.55 0.2 25);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -92,6 +98,10 @@
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.58 0.21 25);
   --primary-foreground: oklch(0.985 0 0);
+  /* Mais claro que --primary de propósito — precisa passar 4.5:1 como
+     texto sobre fundo/card quase preto; --primary sozinho (0.58) só
+     dá 3.76-4.16:1 nesse uso (verificado numericamente). */
+  --live: oklch(0.68 0.21 25);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);

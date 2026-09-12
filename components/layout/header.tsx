@@ -9,17 +9,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { useFavorites } from "@/hooks/use-favorites";
+import { formatRelativeTime } from "@/lib/utils";
 
 /**
  * Header (PROJECT.md §31): logo, busca, favoritos, tema. Sticky com
  * backdrop blur, responsivo. Client Component porque busca/favoritos/
  * tema são interativos (PROJECT.md §49).
+ *
+ * `lastSyncTimeIso` vem do server (HeaderContainer) — Client
+ * Component não pode ler `sync_logs` sozinho. `null` quando a leitura
+ * falhou ou nunca houve sincronização; nesse caso o aviso simplesmente
+ * não aparece, sem bloquear nada (PROJECT.md §54/§76).
  */
-export function Header() {
+export function Header({ lastSyncTimeIso }: { lastSyncTimeIso: string | null }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") ?? "");
   const { favorites } = useFavorites();
+  const lastSyncLabel = lastSyncTimeIso ? formatRelativeTime(new Date(lastSyncTimeIso)) : null;
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -37,6 +44,12 @@ export function Header() {
           <Tv className="size-5 text-primary" aria-hidden="true" />
           <span>Fatec Flix</span>
         </Link>
+
+        {lastSyncLabel && (
+          <span className="hidden shrink-0 text-[11px] text-muted-foreground md:inline">
+            Programação atualizada {lastSyncLabel}
+          </span>
+        )}
 
         <form
           onSubmit={handleSubmit}

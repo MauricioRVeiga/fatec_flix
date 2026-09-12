@@ -17,6 +17,31 @@ export function dedupeBy<T>(items: T[], keyFn: (item: T) => string): T[] {
   return [...map.values()];
 }
 
+/**
+ * "Programação atualizada há 18 minutos" (PROJECT.md §76) — nunca
+ * mais preciso que minutos, é só pra dar uma noção discreta de
+ * frescor, não um relógio.
+ */
+export function formatRelativeTime(date: Date, now: Date = new Date()): string {
+  const diffMs = now.getTime() - date.getTime();
+  const diffMin = Math.floor(diffMs / 60_000);
+
+  if (diffMin < 1) {
+    return "agora mesmo";
+  }
+  if (diffMin < 60) {
+    return `há ${diffMin} minuto${diffMin === 1 ? "" : "s"}`;
+  }
+
+  const diffHour = Math.floor(diffMin / 60);
+  if (diffHour < 24) {
+    return `há ${diffHour} hora${diffHour === 1 ? "" : "s"}`;
+  }
+
+  const diffDay = Math.floor(diffHour / 24);
+  return `há ${diffDay} dia${diffDay === 1 ? "" : "s"}`;
+}
+
 export function groupBy<T, K>(items: T[], keyFn: (item: T) => K): Map<K, T[]> {
   const map = new Map<K, T[]>();
 
