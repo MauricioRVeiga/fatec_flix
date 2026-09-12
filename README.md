@@ -7,10 +7,10 @@ Ver a especificação completa do produto em
 [`PROJECT.md — Plataforma de Canais.md`](<./PROJECT.md — Plataforma de Canais.md>)
 e os requisitos de segurança em [`SECURITY-OWASP-TOP-10-2025.md`](./SECURITY-OWASP-TOP-10-2025.md).
 
-> **Status:** Fase 1 (scaffold) + Fase 2 (schema do banco) concluídas.
-> Sincronização com a API externa, APIs internas, páginas de canal/categoria/
-> favoritos, cron e testes ainda **não** foram implementados — ver
-> "Roadmap" no fim deste documento.
+> **Status:** todas as fases do `PROJECT.md` implementadas (ver
+> "Roadmap" no fim deste documento) — sincronização, APIs internas,
+> catálogo, página de canal/categoria, favoritos, cron, extensão de
+> ad-block opcional, testes (unitário/integração/E2E) e CI.
 
 ## Arquitetura
 
@@ -160,6 +160,24 @@ canal (existente e 404), favoritar/desfavoritar, trocar categoria (com
 e sem resultado). As asserções evitam depender de nomes de canal
 específicos que podem mudar no upstream.
 
+## CI
+
+`.github/workflows/ci.yml` roda em todo push/PR para `main`, em dois
+jobs:
+
+- **test** — `typecheck`, `lint` e `npm test` (unitário + integração).
+  Não depende de nenhuma secret — os testes de integração usam o fake
+  Supabase em memória, nunca o banco real.
+- **build** — `next build` de verdade. `/sitemap.xml` é estático e
+  busca canais reais no Supabase (`lib/api/get-catalog.ts`), então
+  esse job precisa de duas secrets no repositório (**Settings > Secrets
+  and variables > Actions**): `NEXT_PUBLIC_SUPABASE_URL` e
+  `NEXT_PUBLIC_SUPABASE_ANON_KEY` — os mesmos valores já configurados
+  na Vercel. São seguros por design (prefixo `NEXT_PUBLIC_`: já vão
+  expostos a qualquer visitante do site pelo browser; quem protege o
+  dado é a RLS, não o segredo da URL/anon key). Sem essas secrets
+  configuradas, o job `build` falha com um erro claro pedindo elas.
+
 ## Deploy Vercel
 
 ```bash
@@ -293,6 +311,7 @@ original.
 - [x] Página `/categoria/[slug]` (§43)
 - [x] `sitemap.xml` / `robots.txt` (§51)
 - [x] Testes unitários, integração e E2E (§67/§68)
+- [x] CI (GitHub Actions): typecheck, lint, testes e build em todo push/PR
 
 ## Checkup de segurança e correção (2026-09-11)
 
