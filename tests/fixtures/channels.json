@@ -1,0 +1,158 @@
+{
+  "success": true,
+  "total": 6,
+  "data": [
+    {
+      "id": "canal-um-embed",
+      "name": "Canal Um Embed",
+      "description": "Canal de teste com um único servidor disponível.",
+      "logo_url": "https://cdn.example.com/imagens/canal-um-embed.png",
+      "category": "Entretenimento",
+      "embeds": [
+        {
+          "provider": "Servidor Premium",
+          "quality": "FULL HD",
+          "embed_url": "https://embed.example.com/canal-um-embed"
+        }
+      ],
+      "epg": {
+        "current": {
+          "title": "Programa Atual",
+          "description": "Descrição do programa em exibição agora.",
+          "formatted_time": "Segunda-feira, das 10:00 às 11:00",
+          "start_time": 1893452400,
+          "end_time": 1893456000,
+          "image": "https://cdn.example.com/epg/programa-atual.jpg"
+        },
+        "next": null
+      }
+    },
+    {
+      "id": "canal-dois-embeds",
+      "name": "Canal Dois Embeds",
+      "description": "Canal de teste com dois servidores disponíveis.",
+      "logo_url": "https://cdn.example.com/imagens/canal-dois-embeds.png",
+      "category": "Esportes",
+      "embeds": [
+        {
+          "provider": "Servidor Premium",
+          "quality": "FULL HD",
+          "embed_url": "https://embed.example.com/canal-dois-embeds-premium"
+        },
+        {
+          "provider": "Servidor Alternativo",
+          "quality": "HD",
+          "embed_url": "https://embed.example.com/canal-dois-embeds-alternativo"
+        }
+      ],
+      "epg": {
+        "current": {
+          "title": "Jogo ao Vivo",
+          "description": "Transmissão esportiva.",
+          "formatted_time": "Segunda-feira, das 14:00 às 16:00",
+          "start_time": 1893463200,
+          "end_time": 1893470400,
+          "image": null
+        },
+        "next": null
+      }
+    },
+    {
+      "id": "canal-sem-epg",
+      "name": "Canal Sem EPG",
+      "description": "Canal de teste sem programação disponível.",
+      "logo_url": "https://cdn.example.com/imagens/canal-sem-epg.png",
+      "category": "Notícias",
+      "embeds": [
+        {
+          "provider": "Servidor Premium",
+          "quality": "HD",
+          "embed_url": "https://embed.example.com/canal-sem-epg"
+        }
+      ],
+      "epg": null
+    },
+    {
+      "id": "canal-com-epg",
+      "name": "Canal Com EPG",
+      "description": "Canal de teste com programa atual e próximo.",
+      "logo_url": "https://cdn.example.com/imagens/canal-com-epg.png",
+      "category": "Documentários",
+      "embeds": [
+        {
+          "provider": "Servidor Premium",
+          "quality": "FULL HD",
+          "embed_url": "https://embed.example.com/canal-com-epg"
+        }
+      ],
+      "epg": {
+        "current": {
+          "title": "Documentário Atual",
+          "description": "Programa em exibição.",
+          "formatted_time": "Segunda-feira, das 20:00 às 21:00",
+          "start_time": 1893484800,
+          "end_time": 1893488400,
+          "image": "https://cdn.example.com/epg/documentario-atual.jpg"
+        },
+        "next": {
+          "title": "Próximo Documentário",
+          "description": "Próximo programa da grade.",
+          "formatted_time": "Segunda-feira, das 21:00 às 22:00",
+          "start_time": 1893488400,
+          "end_time": 1893492000,
+          "image": "https://cdn.example.com/epg/proximo-documentario.jpg"
+        }
+      }
+    },
+    {
+      "id": "canal-sem-imagem",
+      "name": "Canal Sem Imagem",
+      "description": "Canal de teste sem logo cadastrado.",
+      "logo_url": null,
+      "category": "Infantil",
+      "embeds": [
+        {
+          "provider": "Servidor Premium",
+          "quality": "SD",
+          "embed_url": "https://embed.example.com/canal-sem-imagem"
+        }
+      ],
+      "epg": {
+        "current": {
+          "title": "Desenho Animado",
+          "description": null,
+          "formatted_time": "Segunda-feira, das 08:00 às 08:30",
+          "start_time": 1893441600,
+          "end_time": 1893443400,
+          "image": null
+        },
+        "next": null
+      }
+    },
+    {
+      "id": "canal-sem-descricao",
+      "name": "Canal Sem Descrição",
+      "description": null,
+      "logo_url": "https://cdn.example.com/imagens/canal-sem-descricao.png",
+      "category": "Filmes e Séries",
+      "embeds": [
+        {
+          "provider": "Servidor Premium",
+          "quality": "FULL HD",
+          "embed_url": "https://embed.example.com/canal-sem-descricao"
+        }
+      ],
+      "epg": {
+        "current": {
+          "title": "Filme em Exibição",
+          "description": "Sinopse do filme.",
+          "formatted_time": "Segunda-feira, das 22:00 às 00:00",
+          "start_time": 1893492000,
+          "end_time": 1893499200,
+          "image": "https://cdn.example.com/epg/filme.jpg"
+        },
+        "next": null
+      }
+    }
+  ]
+}
