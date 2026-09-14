@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Fatec Flix — Bloqueador de Anúncios (experimental)",
+  "version": "0.1.0",
+  "description": "Bloqueia domínios de anúncio conhecidos e esconde avisos do tipo \"desative seu bloqueador\" ao assistir canais no Fatec Flix. Extensão opcional e experimental, instalada manualmente — não roda automaticamente para quem só visita o site.",
+  "permissions": ["declarativeNetRequest"],
+  "host_permissions": ["<all_urls>"],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ad_network_rules",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "all_frames": true,
+      "js": ["hide-nag-banners.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
