@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { isAdminEmail } from "@/lib/auth/email";
 import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
 import { createAuthServerSupabaseClient } from "@/lib/supabase/server";
 import { sanitizeNextPath } from "@/lib/utils";
@@ -44,7 +45,7 @@ export async function loginAction(
     return { error: "E-mail ou senha inválidos." };
   }
 
-  if (!adminEmail || data.user.email !== adminEmail) {
+  if (!isAdminEmail(data.user.email, adminEmail)) {
     await supabase.auth.signOut();
     return { error: "E-mail ou senha inválidos." };
   }

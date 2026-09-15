@@ -89,6 +89,35 @@ describe("loginAction (/login, PROJECT.md §82)", () => {
     expect(signOut).not.toHaveBeenCalled();
   });
 
+  it("aceita o admin com diferenças de maiúsculas e espaços na configuração", async () => {
+    process.env.ADMIN_EMAIL = " Admin@Example.com ";
+    signInWithPassword.mockResolvedValue({
+      data: { user: { email: "admin@example.com" } },
+      error: null,
+    });
+
+    await expect(
+      loginAction({ error: null }, formData("Admin@Example.com", "correta"))
+    ).rejects.toThrow(/^REDIRECT:\/$/);
+    expect(signOut).not.toHaveBeenCalled();
+  });
+
+  it("recusa a sessão e desloga quando ADMIN_EMAIL não está configurado", async () => {
+    delete process.env.ADMIN_EMAIL;
+    signInWithPassword.mockResolvedValue({
+      data: { user: { email: "admin@example.com" } },
+      error: null,
+    });
+
+    const result = await loginAction(
+      { error: null },
+      formData("admin@example.com", "correta")
+    );
+
+    expect(result.error).toBe("E-mail ou senha inválidos.");
+    expect(signOut).toHaveBeenCalledOnce();
+  });
+
   it("redireciona para o next quando é um caminho interno válido", async () => {
     signInWithPassword.mockResolvedValue({
       data: { user: { email: "admin@example.com" } },
