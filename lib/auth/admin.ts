@@ -2,6 +2,7 @@ import "server-only";
 
 import { redirect } from "next/navigation";
 
+import { isAdminEmail } from "@/lib/auth/email";
 import { createAuthServerSupabaseClient } from "@/lib/supabase/server";
 
 export async function requireAdminUser() {
@@ -12,7 +13,7 @@ export async function requireAdminUser() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user || !adminEmail || user.email !== adminEmail) {
+  if (!user || !isAdminEmail(user.email, adminEmail)) {
     redirect("/login");
   }
 

@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { Suspense } from "react";
 
 import { HeaderContainer } from "@/components/layout/header-container";
+import { HeaderFallback } from "@/components/layout/header";
 
 import "./globals.css";
 
@@ -46,7 +47,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Suspense fallback={<div className="h-16 border-b border-border/60" />}>
+        <Suspense fallback={<HeaderFallback />}>
           <HeaderContainer />
         </Suspense>
         {children}

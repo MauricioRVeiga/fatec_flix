@@ -12,6 +12,12 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { useFavorites } from "@/hooks/use-favorites";
 import { formatRelativeTime } from "@/lib/utils";
 
+export function HeaderFallback() {
+  const pathname = usePathname();
+  if (pathname === "/login" || pathname.startsWith("/admin")) return null;
+  return <div className="h-16 border-b border-border/60" />;
+}
+
 export function Header({ lastSyncTimeIso }: { lastSyncTimeIso: string | null }) {
   const router = useRouter();
   const pathname = usePathname();

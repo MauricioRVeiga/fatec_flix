@@ -2,10 +2,9 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { features } from "@/config/features";
+import { isAdminEmail } from "@/lib/auth/email";
 import { updateSupabaseSession } from "@/lib/supabase/middleware";
 import { sanitizeNextPath } from "@/lib/utils";
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 function isPublicPath(pathname: string): boolean {
   return pathname === "/login" || pathname.startsWith("/api/cron/") || pathname === "/api/health";
@@ -16,7 +15,7 @@ export async function proxy(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
   const isLoginPath = pathname === "/login";
-  const isAuthorizedAdmin = Boolean(user && ADMIN_EMAIL && user.email === ADMIN_EMAIL);
+  const isAuthorizedAdmin = isAdminEmail(user?.email, process.env.ADMIN_EMAIL);
 
   if (!isAuthorizedAdmin && !isPublicPath(pathname)) {
     const loginUrl = new URL("/login", request.url);
@@ -54,6 +53,7 @@ export async function proxy(request: NextRequest) {
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
+  requestHeaders.set("x-pathname", pathname);
 
   const response = NextResponse.next({
     request: { headers: requestHeaders },
@@ -80,6 +80,6 @@ function copySessionCookies(from: NextResponse, to: NextResponse) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|icon.svg|apple-icon|opengraph-image|twitter-image|manifest.webmanifest).*)",
+    "/((?!_next/static|_next/image|images/login-cinema\\.webp$|favicon.ico|icon.svg|apple-icon|opengraph-image|twitter-image|manifest.webmanifest).*)",
   ],
 };
