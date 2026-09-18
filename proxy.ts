@@ -35,6 +35,11 @@ export async function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 
   const isDev = process.env.NODE_ENV === "development";
+  const frameSources = features.externalEmbeds
+    ? "https:"
+    : features.vod && features.oneElevenMovies
+      ? "https://111movies.net https://player.vidlove.cc"
+      : "'none'";
 
   const csp = [
     `default-src 'self'`,
@@ -43,7 +48,7 @@ export async function proxy(request: NextRequest) {
     `img-src 'self' https: data:`,
     `font-src 'self' data:`,
     `connect-src 'self'${isDev ? " ws:" : ""}`,
-    features.externalEmbeds ? `frame-src https:` : `frame-src 'none'`,
+    `frame-src ${frameSources}`,
     `frame-ancestors 'none'`,
     `object-src 'none'`,
     `base-uri 'self'`,

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Film, Globe2, Radio } from "lucide-react";
 import { Suspense } from "react";
 
+import { features } from "@/config/features";
+
 import { LoginForm } from "./login-form";
 import styles from "./login.module.css";
 
@@ -46,7 +48,10 @@ export default function LoginPage() {
           </p>
           <div className={styles.contentTypes}>
             <span className={styles.liveCategory}><Radio size={18} aria-hidden="true" /> TV ao vivo</span>
-            <span className={styles.futureCategory}><Film size={18} aria-hidden="true" /> Filmes e séries <span className={styles.soon}>EM BREVE</span></span>
+            <span className={styles.futureCategory}>
+              <Film size={18} aria-hidden="true" /> Filmes e séries{" "}
+              <span className={styles.soon}>{features.vod ? "NOVO" : "EM BREVE"}</span>
+            </span>
           </div>
         </section>
 

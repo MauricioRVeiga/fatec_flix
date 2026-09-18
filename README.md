@@ -82,9 +82,12 @@ cp .env.example .env.local
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Chave anônima (respeita RLS). Pode ir ao browser. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Chave de service role. **Nunca** deve chegar ao browser — uso exclusivo em `lib/supabase/admin.ts`, no servidor. |
 | `UPSTREAM_API_URL` | URL da API externa (`https://api.reidoscanais.st`). |
+| `TMDB_READ_ACCESS_TOKEN` | Token de leitura do TMDB, usado apenas no servidor para catálogo de filmes e séries. |
 | `CRON_SECRET` | Segredo usado para autenticar o endpoint de cron. |
 | `ADMIN_EMAIL` | Único e-mail autorizado a acessar o site inteiro (ver "Login e painel administrativo" abaixo). |
 | `NEXT_PUBLIC_ENABLE_EXTERNAL_EMBEDS` | Liga/desliga a renderização de embeds externos. Mantenha `false` até haver autorização de uso do conteúdo. |
+| `NEXT_PUBLIC_ENABLE_VOD` | Liga as páginas, busca e navegação de filmes e séries. Requer `TMDB_READ_ACCESS_TOKEN`. |
+| `NEXT_PUBLIC_ENABLE_111MOVIES` | Habilita o provider experimental 111movies no resolver de reprodução. Mantenha `false` sem autorização de uso do conteúdo. |
 | `E2E_ADMIN_PASSWORD` | Opcional — só pra rodar `npm run test:e2e` localmente (ver "Rodar os testes E2E" abaixo). Nunca lida pela aplicação. |
 
 Nunca versione `.env` ou `.env.local`.
@@ -108,6 +111,8 @@ pelo SQL Editor do painel do Supabase:
 5. `202609110005_fix_sync_lock.sql`
 6. `202609110006_fix_channel_epg_rls.sql`
 7. `202609140001_harden_rls_and_functions.sql`
+8. `202609140002_drop_orphaned_sync_lock_functions.sql`
+9. `202609180001_media_catalog.sql`
 
 ## Executar sincronização
 
@@ -131,6 +136,25 @@ npm run dev
 ```
 
 Acesse `http://localhost:3000`.
+
+## Filmes e séries (VOD)
+
+O catálogo VOD usa o TMDB apenas no servidor, com respostas validadas por
+Zod e revalidação de uma hora. Configure `TMDB_READ_ACCESS_TOKEN` e ligue
+`NEXT_PUBLIC_ENABLE_VOD=true` para liberar `/filmes`, `/series` e suas
+páginas de detalhes.
+
+A reprodução é separada do catálogo. `POST /api/playback` valida IDs,
+temporada e episódio e só então pede uma URL aos providers habilitados.
+Para o provider experimental atual, ligue também
+`NEXT_PUBLIC_ENABLE_111MOVIES=true`. O iframe externo só é criado depois
+do clique do usuário, usa `referrerPolicy=no-referrer`, sandbox e CSP
+limitada aos domínios necessários. O servidor Fatec Flix não baixa nem
+retransmite mídia.
+
+Dados e imagens do catálogo exigem a atribuição do TMDB presente nas
+páginas de detalhes. A habilitação de qualquer provider de reprodução
+continua condicionada à autorização e às licenças aplicáveis ao conteúdo.
 
 ## Testes
 

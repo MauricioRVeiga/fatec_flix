@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Search } from "lucide-react";
+import { Film, Heart, Search, Tv } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FatecFlixLogo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { features } from "@/config/features";
 import { useFavorites } from "@/hooks/use-favorites";
 import { formatRelativeTime } from "@/lib/utils";
 
@@ -25,6 +26,11 @@ export function Header({ lastSyncTimeIso }: { lastSyncTimeIso: string | null }) 
   const [query, setQuery] = useState(searchParams.get("q") ?? "");
   const { favorites } = useFavorites();
   const lastSyncLabel = lastSyncTimeIso ? formatRelativeTime(new Date(lastSyncTimeIso)) : null;
+  const searchSection = pathname.startsWith("/filmes") || pathname.startsWith("/filme/")
+    ? "movies"
+    : pathname.startsWith("/series") || pathname.startsWith("/serie/")
+      ? "series"
+      : "channels";
 
   if (pathname.startsWith("/admin") || pathname === "/login") {
     return null;
@@ -33,7 +39,9 @@ export function Header({ lastSyncTimeIso }: { lastSyncTimeIso: string | null }) 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const trimmed = query.trim();
-    router.push(trimmed ? `/?q=${encodeURIComponent(trimmed)}` : "/");
+    const basePath =
+      searchSection === "movies" ? "/filmes" : searchSection === "series" ? "/series" : "/";
+    router.push(trimmed ? `${basePath}?q=${encodeURIComponent(trimmed)}` : basePath);
   }
 
   return (
@@ -47,6 +55,31 @@ export function Header({ lastSyncTimeIso }: { lastSyncTimeIso: string | null }) 
           <span>Fatec Flix</span>
         </Link>
 
+        <nav className="order-2 flex items-center gap-1" aria-label="Conteúdo principal">
+          <Button
+            variant={searchSection === "channels" ? "secondary" : "ghost"}
+            size="sm"
+            nativeButton={false}
+            render={<Link href="/"><Tv aria-hidden="true" /> Ao vivo</Link>}
+          />
+          {features.vod && (
+            <>
+              <Button
+                variant={searchSection === "movies" ? "secondary" : "ghost"}
+                size="sm"
+                nativeButton={false}
+                render={<Link href="/filmes"><Film aria-hidden="true" /> Filmes</Link>}
+              />
+              <Button
+                variant={searchSection === "series" ? "secondary" : "ghost"}
+                size="sm"
+                nativeButton={false}
+                render={<Link href="/series">Séries</Link>}
+              />
+            </>
+          )}
+        </nav>
+
         {lastSyncLabel && (
           <span className="hidden shrink-0 text-[11px] text-muted-foreground md:inline">
             Programação atualizada {lastSyncLabel}
@@ -58,8 +91,8 @@ export function Header({ lastSyncTimeIso }: { lastSyncTimeIso: string | null }) 
           role="search"
           className="order-3 w-full sm:order-2 sm:max-w-sm sm:flex-1"
         >
-          <label htmlFor="channel-search" className="sr-only">
-            Buscar canais
+          <label htmlFor="catalog-search" className="sr-only">
+            Buscar no catálogo atual
           </label>
           <div className="relative">
             <Search
@@ -67,9 +100,15 @@ export function Header({ lastSyncTimeIso }: { lastSyncTimeIso: string | null }) 
               aria-hidden="true"
             />
             <Input
-              id="channel-search"
+              id="catalog-search"
               type="search"
-              placeholder="Buscar canais..."
+              placeholder={
+                searchSection === "movies"
+                  ? "Buscar filmes..."
+                  : searchSection === "series"
+                    ? "Buscar séries..."
+                    : "Buscar canais..."
+              }
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               className="pl-8"

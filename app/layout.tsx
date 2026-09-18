@@ -20,8 +20,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Fatec Flix",
-  description:
-    "Catálogo de canais de TV com programação atual, próximos programas, categorias e busca.",
+  description: "TV ao vivo, filmes e séries em um só lugar.",
 };
 
 const THEME_INIT_SCRIPT = `

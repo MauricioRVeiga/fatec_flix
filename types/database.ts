@@ -66,6 +66,40 @@ export type AppSettingRow = {
   updated_at: string;
 };
 
+export type MediaType = "movie" | "tv";
+
+export type MediaTitleRow = {
+  id: number;
+  media_type: MediaType;
+  tmdb_id: number;
+  imdb_id: string | null;
+  title: string;
+  original_title: string | null;
+  overview: string | null;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  release_date: string | null;
+  vote_average: number | null;
+  popularity: number | null;
+  active: boolean;
+  metadata: Record<string, unknown>;
+  last_synced_at: string;
+  updated_at: string;
+  created_at: string;
+};
+
+export type MediaSeasonRow = {
+  id: number;
+  media_id: number;
+  season_number: number;
+  name: string;
+  overview: string | null;
+  poster_path: string | null;
+  episode_count: number;
+  air_date: string | null;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -99,6 +133,20 @@ export type Database = {
         Row: AppSettingRow;
         Insert: Pick<AppSettingRow, "key" | "value"> & Partial<AppSettingRow>;
         Update: Partial<AppSettingRow>;
+        Relationships: [];
+      };
+      media_titles: {
+        Row: MediaTitleRow;
+        Insert: Partial<MediaTitleRow> &
+          Pick<MediaTitleRow, "media_type" | "tmdb_id" | "title">;
+        Update: Partial<MediaTitleRow>;
+        Relationships: [];
+      };
+      media_seasons: {
+        Row: MediaSeasonRow;
+        Insert: Partial<MediaSeasonRow> &
+          Pick<MediaSeasonRow, "media_id" | "season_number" | "name">;
+        Update: Partial<MediaSeasonRow>;
         Relationships: [];
       };
     };
